@@ -56,7 +56,7 @@
     "build:watch": "tsc -w -p ."
   },
   "dependencies": {
-    "git://github.com/jasonhenderson/mume.git": ">=0.2.8"
+    "@shd101wyy/mume": "github:jasonhenderson/mume"
   },
   "devDependencies": {
     "@types/atom": "^1.21.8",
