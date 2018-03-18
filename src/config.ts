@@ -1,4 +1,4 @@
-import {MarkdownEngineConfig} from "@shd101wyy/mume"
+import {MarkdownEngineConfig, MathRenderingOption} from "@shd101wyy/mume"
 import {CompositeDisposable} from "atom"
 
 export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
@@ -18,7 +18,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
   public enableExtendedTableSyntax: boolean;
   public enableCriticMarkupSyntax: boolean;
   public protocolsWhiteList: string;
-  public mathRenderingOption: string;
+  public mathRenderingOption: MathRenderingOption;
   public mathInlineDelimiters: string[][];
   public mathBlockDelimiters: string[][];
   public codeBlockTheme: string;
@@ -65,7 +65,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     this.wikiLinkFileExtension = atom.config.get('markdown-preview-enhanced.wikiLinkFileExtension')
     this.protocolsWhiteList = atom.config.get('markdown-preview-enhanced.protocolsWhiteList')
     this.mathRenderingOption = atom.config.get('markdown-preview-enhanced.mathRenderingOption')
-    
+
     try {
       this.mathInlineDelimiters = JSON.parse(atom.config.get('markdown-preview-enhanced.mathInlineDelimiters'))
     } catch(error) {
@@ -76,7 +76,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     } catch(error) {
       this.mathBlockDelimiters = [["$$", "$$"], ["\\[", "\\]"]]
     }
-    
+
     this.codeBlockTheme = atom.config.get('markdown-preview-enhanced.codeBlockTheme')
     this.previewTheme = atom.config.get('markdown-preview-enhanced.previewTheme')
     this.revealjsTheme = atom.config.get('markdown-preview-enhanced.revealjsTheme')
@@ -104,7 +104,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
     this.closePreviewAutomatically = atom.config.get('markdown-preview-enhanced.closePreviewAutomatically')
     // this.enableZenMode = atom.config.get('markdown-preview-enhanced.enableZenMode')
     this.imageUploader = atom.config.get('markdown-preview-enhanced.imageUploader')
-    this.imageDropAction = atom.config.get('markdown-preview-enhanced.imageDropAction')    
+    this.imageDropAction = atom.config.get('markdown-preview-enhanced.imageDropAction')
   }
 
   public onDidChange(subscriptions:CompositeDisposable, callback) {
@@ -220,7 +220,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
       atom.config.onDidChange('markdown-preview-enhanced.latexEngine', ({newValue})=> {
         this.latexEngine = newValue
         // callback()
-      }), 
+      }),
       atom.config.onDidChange('markdown-preview-enhanced.enableScriptExecution', ({newValue})=> {
         this.enableScriptExecution = newValue
         callback()

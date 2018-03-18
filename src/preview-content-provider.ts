@@ -236,15 +236,15 @@ export class MarkdownPreviewEnhancedView {
     if (this.webview.getURL() === htmlFilePath) {
       this.webview.reload()
     } else {
-      this.webview.loadURL(mume.utility.addFileProtocol(htmlFilePath)) // This will crash Atom if webview is not visible. 
+      this.webview.loadURL(mume.utility.addFileProtocol(htmlFilePath)) // This will crash Atom if webview is not visible.
     }
   }
 
   /**
-   * Wait until this.webview is attached to DOM and dom-ready event is emitted.  
+   * Wait until this.webview is attached to DOM and dom-ready event is emitted.
    */
   private async waitUtilWebviewDOMReady():Promise<void> {
-    if (this._webviewDOMReady) return 
+    if (this._webviewDOMReady) return
     while (true) {
       await mume.utility.sleep(500)
       if (this._webviewDOMReady) return
@@ -384,7 +384,7 @@ export class MarkdownPreviewEnhancedView {
   }
 
   private webviewConsoleMessage(event) {
-    console.log('webview: ', event.message)
+    //console.log('webview: ', event.message)
   }
 
   private webviewKeyDown(event) {
@@ -829,7 +829,7 @@ export class MarkdownPreviewEnhancedView {
         let url = `${imageFolderPath}/${imageFileName}`
         if (url.indexOf(' ') >= 0)
           url = url.replace(/ /g, '%20')
-        
+
         editor.insertText(`![${description}](${url})`)
       })
     })

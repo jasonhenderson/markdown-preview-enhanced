@@ -53,16 +53,17 @@
   ],
   "scripts": {
     "build": "tsc -p .",
-    "build:watch": "tsc -w -p ."
+    "build:watch": "tsc -w -p .",
+    "atom": "cd ../mume && npm run build"
   },
   "dependencies": {
     "@shd101wyy/mume": "github:jasonhenderson/mume"
   },
   "devDependencies": {
-    "@types/atom": "^1.21.8",
-    "@types/jquery": "^3.2.12",
+    "@types/atom": "^1.24.5",
+    "@types/jquery": "^3.3.1",
     "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.31",
+    "@types/node": "^8.9.5",
     "chinese-conv": "^1.0.1",
     "typescript": "^2.5.3"
   }

@@ -215,7 +215,7 @@ class MarkdownPreviewEnhancedView {
                 this.webview.reload();
             }
             else {
-                this.webview.loadURL(mume.utility.addFileProtocol(htmlFilePath)); // This will crash Atom if webview is not visible. 
+                this.webview.loadURL(mume.utility.addFileProtocol(htmlFilePath)); // This will crash Atom if webview is not visible.
             }
         });
     }
@@ -258,7 +258,7 @@ class MarkdownPreviewEnhancedView {
         }
     }
     webviewConsoleMessage(event) {
-        console.log('webview: ', event.message);
+        //console.log('webview: ', event.message)
     }
     webviewKeyDown(event) {
         let found = false;
