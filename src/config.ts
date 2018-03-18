@@ -1,5 +1,6 @@
 import {MarkdownEngineConfig, MathRenderingOption} from "@shd101wyy/mume"
 import {CompositeDisposable} from "atom"
+import { MathRenderingOption } from "../../mume/out/src/markdown-engine-config";
 
 export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
   public static getCurrentConfig() {
