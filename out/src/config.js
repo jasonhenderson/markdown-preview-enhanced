@@ -128,49 +128,6 @@ class MarkdownPreviewEnhancedConfig {
             catch (error) {
                 mathBlockDelimiters = [["$$", "$$"], ["\\[", "\\]"]];
             }
-        }), atom.config.onDidChange("markdown-preview-enhanced.codeBlockTheme", ({ newValue }) => {
-            this.codeBlockTheme = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.previewTheme", ({ newValue }) => {
-            this.previewTheme = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.revealjsTheme", ({ newValue }) => {
-            this.revealjsTheme = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.mermaidTheme", ({ newValue }) => {
-            this.mermaidTheme = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.frontMatterRenderingOption", ({ newValue }) => {
-            this.frontMatterRenderingOption = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.imageFolderPath", ({ newValue }) => {
-            this.imageFolderPath = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.printBackground", ({ newValue }) => {
-            this.printBackground = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.phantomPath", ({ newValue }) => {
-            this.phantomPath = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.pandocPath", ({ newValue }) => {
-            this.pandocPath = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.pandocMarkdownFlavor", ({ newValue }) => {
-            this.pandocMarkdownFlavor = newValue;
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.pandocArguments", ({ newValue }) => {
-            this.pandocArguments =
-                newValue
-                    .split(",")
-                    .map((x) => x.trim())
-                    .filter((x) => x.length) || [];
-            callback();
-        }), atom.config.onDidChange("markdown-preview-enhanced.latexEngine", ({ newValue }) => {
-            this.latexEngine = newValue;
-            // callback()
-        }), atom.config.onDidChange("markdown-preview-enhanced.enableScriptExecution", ({ newValue }) => {
-            this.enableScriptExecution = newValue;
-            callback();
         }), atom.config.onDidChange("markdown-preview-enhanced.fileExtension", ({ newValue }) => {
             this.fileExtension =
                 newValue

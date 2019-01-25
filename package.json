@@ -1,7 +1,7 @@
 {
   "name": "markdown-preview-enhanced",
   "main": "./out/src/extension",
-  "version": "0.15.9",
+  "version": "0.15.10",
   "description": "One of the 'BEST' markdown preview extensions for Atom editor!",
   "repository": "https://github.com/shd101wyy/markdown-preview-enhanced",
   "license": "NCSA",
@@ -58,10 +58,13 @@
     "lint": "tsc --project . --noEmit && tslint --project . && prettier-check --ignore-path .gitignore \"{.,src/**}/{*.{j,t}s,*.md,ts*.json}\"",
     "lint-with-tests": "tsc --project . --noEmit && tslint --project . && prettier-check --ignore-path .gitignore \"{.,src/**,test/**}/{*.{j,t}s,*.md,ts*.json}\"",
     "format": "prettier --write --ignore-path .gitignore \"{.,src/**}/{*.{j,t}s,*.md,ts*.json}\"",
-    "format-with-tests": "prettier --write --ignore-path .gitignore \"{.,src/**,test/**}/{*.{j,t}s,*.md,ts*.json}\""
+    "format-with-tests": "prettier --write --ignore-path .gitignore \"{.,src/**,test/**}/{*.{j,t}s,*.md,ts*.json}\"",
+    "link": "apm link --dev",
+    "dev-placeholder": "file:../mume"
   },
   "dependencies": {
-    "@shd101wyy/mume": "github:jasonhenderson/mume"
+    "@shd101wyy/mume": "github:jasonhenderson/mume",
+    "mume": "0.0.0"
   },
   "devDependencies": {
     "@types/atom": "^1.25.0",
@@ -74,6 +77,6 @@
     "prettier-check": "^2.0.0",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0"
   }
 }
