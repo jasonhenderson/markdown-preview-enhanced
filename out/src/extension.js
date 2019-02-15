@@ -18,7 +18,7 @@ let subscriptions = null;
 let config = null;
 /**
  * Key is editor.getPath()
- * Value is MarkdownPreviewEnhancedView object
+ * Value is ShowdeoSimplePreviewView object
  */
 let previewsMap = {};
 /**
@@ -67,7 +67,7 @@ function getPreviewForEditor(editor) {
     else if (typeof editor === "string") {
         return previewsMap[editor];
     }
-    else if (editor instanceof preview_content_provider_1.MarkdownPreviewEnhancedView) {
+    else if (editor instanceof preview_content_provider_1.ShowdeoSimplePreviewView) {
         return editor;
     }
     else if (editor && editor.getPath) {
@@ -115,11 +115,11 @@ function startPreview(editor) {
     let preview = getPreviewForEditor(editor);
     if (!preview) {
         if (config.singlePreview) {
-            preview = new preview_content_provider_1.MarkdownPreviewEnhancedView("mpe://single_preview", config);
+            preview = new preview_content_provider_1.ShowdeoSimplePreviewView("mpe://single_preview", config);
             previewsMap["single_preview"] = preview;
         }
         else {
-            preview = new preview_content_provider_1.MarkdownPreviewEnhancedView("mpe://" + editor.getPath(), config);
+            preview = new preview_content_provider_1.ShowdeoSimplePreviewView("mpe://" + editor.getPath(), config);
             previewsMap[editor.getPath()] = preview;
         }
         preview.onPreviewDidDestroy(removePreviewFromMap);
@@ -134,7 +134,7 @@ function activate(state) {
         .then(() => {
         subscriptions = new atom_1.CompositeDisposable();
         // Init config
-        config = new config_1.MarkdownPreviewEnhancedConfig();
+        config = new config_1.ShowdeoSimplePreviewConfig();
         config.onDidChange(subscriptions, onDidChangeConfig);
         mume.onDidChangeConfigFile(onDidChangeConfig);
         // Set opener
@@ -150,24 +150,24 @@ function activate(state) {
         }));
         // Register commands
         subscriptions.add(atom.commands.add("atom-workspace", {
-            "markdown-preview-enhanced:toggle": togglePreview,
-            "markdown-preview-enhanced:customize-css": customizeCSS,
-            "markdown-preview-enhanced:create-toc": createTOC,
-            "markdown-preview-enhanced:toggle-scroll-sync": toggleScrollSync,
-            "markdown-preview-enhanced:toggle-live-update": toggleLiveUpdate,
-            "markdown-preview-enhanced:toggle-break-on-single-newline": toggleBreakOnSingleNewLine,
-            "markdown-preview-enhanced:insert-table": insertTable,
-            "markdown-preview-enhanced:image-helper": startImageHelper,
-            "markdown-preview-enhanced:open-mermaid-config": openMermaidConfig,
-            "markdown-preview-enhanced:open-phantomjs-config": openPhantomJSConfig,
-            "markdown-preview-enhanced:open-mathjax-config": openMathJaxConfig,
-            "markdown-preview-enhanced:extend-parser": extendParser,
-            "markdown-preview-enhanced:insert-new-slide": insertNewSlide,
-            "markdown-preview-enhanced:insert-page-break": insertPageBreak,
-            "markdown-preview-enhanced:toggle-zen-mode": toggleZenMode,
-            "markdown-preview-enhanced:run-code-chunk": runCodeChunkCommand,
-            "markdown-preview-enhanced:run-all-code-chunks": runAllCodeChunks,
-            "markdown-preview-enhanced:show-uploaded-images": showUploadedImages,
+            "showdeo-simple-preview:toggle": togglePreview,
+            "showdeo-simple-preview:customize-css": customizeCSS,
+            "showdeo-simple-preview:create-toc": createTOC,
+            "showdeo-simple-preview:toggle-scroll-sync": toggleScrollSync,
+            "showdeo-simple-preview:toggle-live-update": toggleLiveUpdate,
+            "showdeo-simple-preview:toggle-break-on-single-newline": toggleBreakOnSingleNewLine,
+            "showdeo-simple-preview:insert-table": insertTable,
+            "showdeo-simple-preview:image-helper": startImageHelper,
+            "showdeo-simple-preview:open-mermaid-config": openMermaidConfig,
+            "showdeo-simple-preview:open-phantomjs-config": openPhantomJSConfig,
+            "showdeo-simple-preview:open-mathjax-config": openMathJaxConfig,
+            "showdeo-simple-preview:extend-parser": extendParser,
+            "showdeo-simple-preview:insert-new-slide": insertNewSlide,
+            "showdeo-simple-preview:insert-page-break": insertPageBreak,
+            "showdeo-simple-preview:toggle-zen-mode": toggleZenMode,
+            "showdeo-simple-preview:run-code-chunk": runCodeChunkCommand,
+            "showdeo-simple-preview:run-all-code-chunks": runAllCodeChunks,
+            "showdeo-simple-preview:show-uploaded-images": showUploadedImages,
         }));
         // When the preview is displayed
         // preview will display the content of editor (pane item) that is activated
@@ -220,7 +220,7 @@ function activate(state) {
                 const editor = event.item;
                 const editorElement = editor["getElement"]();
                 if (editor && editor["buffer"]) {
-                    if (atom.config.get("markdown-preview-enhanced.enableZenMode")) {
+                    if (atom.config.get("showdeo-simple-preview.enableZenMode")) {
                         editorElement.setAttribute("data-markdown-zen", "");
                     }
                     else {
@@ -232,7 +232,7 @@ function activate(state) {
             }
         }));
         // zen mode observation
-        subscriptions.add(atom.config.observe("markdown-preview-enhanced.enableZenMode", (enableZenMode) => {
+        subscriptions.add(atom.config.observe("showdeo-simple-preview.enableZenMode", (enableZenMode) => {
             const paneItems = atom.workspace.getPaneItems();
             for (let i = 0; i < paneItems.length; i++) {
                 const editor = paneItems[i];
@@ -264,7 +264,7 @@ function activate(state) {
             }
         }));
         // use single preview
-        subscriptions.add(atom.config.onDidChange("markdown-preview-enhanced.singlePreview", (singlePreview) => {
+        subscriptions.add(atom.config.onDidChange("showdeo-simple-preview.singlePreview", (singlePreview) => {
             for (const sourceUri in previewsMap) {
                 if (previewsMap.hasOwnProperty(sourceUri)) {
                     const preview = previewsMap[sourceUri];
@@ -299,12 +299,12 @@ function bindMarkdownEditorDropEvents(editor) {
                 const imageFilePath = files[i].path;
                 if (files[i].type.startsWith("image")) {
                     // Drop image
-                    const imageDropAction = atom.config.get("markdown-preview-enhanced.imageDropAction");
+                    const imageDropAction = atom.config.get("showdeo-simple-preview.imageDropAction");
                     if (imageDropAction === "upload") {
                         // upload image
                         event.stopPropagation();
                         event.preventDefault();
-                        preview_content_provider_1.MarkdownPreviewEnhancedView.uploadImageFile(editor, imageFilePath, config.imageUploader);
+                        preview_content_provider_1.ShowdeoSimplePreviewView.uploadImageFile(editor, imageFilePath, config.imageUploader);
                     }
                     else if (imageDropAction.startsWith("insert")) {
                         // insert relative path
@@ -320,7 +320,7 @@ function bindMarkdownEditorDropEvents(editor) {
                         // copy to image folder
                         event.stopPropagation();
                         event.preventDefault();
-                        preview_content_provider_1.MarkdownPreviewEnhancedView.pasteImageFile(editor, atom.config.get("markdown-preview-enhanced.imageFolderPath"), imageFilePath);
+                        preview_content_provider_1.ShowdeoSimplePreviewView.pasteImageFile(editor, atom.config.get("showdeo-simple-preview.imageFolderPath"), imageFilePath);
                     }
                 }
             }
@@ -348,8 +348,8 @@ function createTOC() {
     }
 }
 function toggleScrollSync() {
-    const flag = atom.config.get("markdown-preview-enhanced.scrollSync");
-    atom.config.set("markdown-preview-enhanced.scrollSync", !flag);
+    const flag = atom.config.get("showdeo-simple-preview.scrollSync");
+    atom.config.set("showdeo-simple-preview.scrollSync", !flag);
     if (!flag) {
         atom.notifications.addInfo("Scroll Sync enabled");
     }
@@ -358,8 +358,8 @@ function toggleScrollSync() {
     }
 }
 function toggleLiveUpdate() {
-    const flag = atom.config.get("markdown-preview-enhanced.liveUpdate");
-    atom.config.set("markdown-preview-enhanced.liveUpdate", !flag);
+    const flag = atom.config.get("showdeo-simple-preview.liveUpdate");
+    atom.config.set("showdeo-simple-preview.liveUpdate", !flag);
     if (!flag) {
         atom.notifications.addInfo("Live Update enabled");
     }
@@ -368,8 +368,8 @@ function toggleLiveUpdate() {
     }
 }
 function toggleBreakOnSingleNewLine() {
-    const flag = atom.config.get("markdown-preview-enhanced.breakOnSingleNewLine");
-    atom.config.set("markdown-preview-enhanced.breakOnSingleNewLine", !flag);
+    const flag = atom.config.get("showdeo-simple-preview.breakOnSingleNewLine");
+    atom.config.set("showdeo-simple-preview.breakOnSingleNewLine", !flag);
     if (!flag) {
         atom.notifications.addInfo("Enabled breaking on single newline");
     }
@@ -425,8 +425,8 @@ function insertPageBreak() {
     }
 }
 function toggleZenMode() {
-    const enableZenMode = atom.config.get("markdown-preview-enhanced.enableZenMode");
-    atom.config.set("markdown-preview-enhanced.enableZenMode", !enableZenMode);
+    const enableZenMode = atom.config.get("showdeo-simple-preview.enableZenMode");
+    atom.config.set("showdeo-simple-preview.enableZenMode", !enableZenMode);
     if (!enableZenMode) {
         atom.notifications.addInfo("zen mode enabled");
     }

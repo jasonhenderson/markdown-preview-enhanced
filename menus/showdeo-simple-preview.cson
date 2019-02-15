@@ -2,24 +2,24 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle markdown-preview-enhanced'
-      'command': 'markdown-preview-enhanced:toggle'
+      'label': 'Toggle showdeo-simple-preview'
+      'command': 'showdeo-simple-preview:toggle'
     }
   ],
   'atom-workspace atom-text-editor[data-grammar*="gfm"]': [
     {
       'label': 'Markdown Sync Preview',
-      'command': 'markdown-preview-enhanced:sync-preview'}
+      'command': 'showdeo-simple-preview:sync-preview'}
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Markdown Preview Enhanced'
+      'label': 'Showdeo Simple Preview'
       'submenu': [
         {
           'label': 'Toggle'
-          'command': 'markdown-preview-enhanced:toggle'
+          'command': 'showdeo-simple-preview:toggle'
         }
       ]
     ]

@@ -2,9 +2,9 @@ import { MarkdownEngineConfig } from "@shd101wyy/mume";
 import { MathRenderingOption } from "@shd101wyy/mume/out/src/markdown-engine-config";
 import { CompositeDisposable } from "atom";
 
-export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
+export class ShowdeoSimplePreviewConfig implements MarkdownEngineConfig {
   public static getCurrentConfig() {
-    return new MarkdownPreviewEnhancedConfig();
+    return new ShowdeoSimplePreviewConfig();
   }
 
   /*
@@ -58,206 +58,206 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
      * MarkdownEngineConfig properties
      */
     this.usePandocParser = atom.config.get(
-      "markdown-preview-enhanced.usePandocParser",
+      "showdeo-simple-preview.usePandocParser",
     );
     this.breakOnSingleNewLine = atom.config.get(
-      "markdown-preview-enhanced.breakOnSingleNewLine",
+      "showdeo-simple-preview.breakOnSingleNewLine",
     );
     this.enableTypographer = atom.config.get(
-      "markdown-preview-enhanced.enableTypographer",
+      "showdeo-simple-preview.enableTypographer",
     );
     this.enableLinkify = atom.config.get(
-      "markdown-preview-enhanced.enableLinkify",
+      "showdeo-simple-preview.enableLinkify",
     );
     this.enableWikiLinkSyntax = atom.config.get(
-      "markdown-preview-enhanced.enableWikiLinkSyntax",
+      "showdeo-simple-preview.enableWikiLinkSyntax",
     );
     this.enableEmojiSyntax = atom.config.get(
-      "markdown-preview-enhanced.enableEmojiSyntax",
+      "showdeo-simple-preview.enableEmojiSyntax",
     );
     this.enableExtendedTableSyntax = atom.config.get(
-      "markdown-preview-enhanced.enableExtendedTableSyntax",
+      "showdeo-simple-preview.enableExtendedTableSyntax",
     );
     this.enableCriticMarkupSyntax = atom.config.get(
-      "markdown-preview-enhanced.enableCriticMarkupSyntax",
+      "showdeo-simple-preview.enableCriticMarkupSyntax",
     );
     this.wikiLinkFileExtension = atom.config.get(
-      "markdown-preview-enhanced.wikiLinkFileExtension",
+      "showdeo-simple-preview.wikiLinkFileExtension",
     );
     this.protocolsWhiteList = atom.config.get(
-      "markdown-preview-enhanced.protocolsWhiteList",
+      "showdeo-simple-preview.protocolsWhiteList",
     );
     this.mathRenderingOption = atom.config.get(
-      "markdown-preview-enhanced.mathRenderingOption",
+      "showdeo-simple-preview.mathRenderingOption",
     );
 
     try {
       this.mathInlineDelimiters = JSON.parse(
-        atom.config.get("markdown-preview-enhanced.mathInlineDelimiters"),
+        atom.config.get("showdeo-simple-preview.mathInlineDelimiters"),
       );
     } catch (error) {
       this.mathInlineDelimiters = [["$", "$"], ["\\(", "\\)"]];
     }
     try {
       this.mathBlockDelimiters = JSON.parse(
-        atom.config.get("markdown-preview-enhanced.mathBlockDelimiters"),
+        atom.config.get("showdeo-simple-preview.mathBlockDelimiters"),
       );
     } catch (error) {
       this.mathBlockDelimiters = [["$$", "$$"], ["\\[", "\\]"]];
     }
 
     this.codeBlockTheme = atom.config.get(
-      "markdown-preview-enhanced.codeBlockTheme",
+      "showdeo-simple-preview.codeBlockTheme",
     );
     this.previewTheme = atom.config.get(
-      "markdown-preview-enhanced.previewTheme",
+      "showdeo-simple-preview.previewTheme",
     );
     this.revealjsTheme = atom.config.get(
-      "markdown-preview-enhanced.revealjsTheme",
+      "showdeo-simple-preview.revealjsTheme",
     );
     this.mermaidTheme = atom.config.get(
-      "markdown-preview-enhanced.mermaidTheme",
+      "showdeo-simple-preview.mermaidTheme",
     );
     this.frontMatterRenderingOption = atom.config.get(
-      "markdown-preview-enhanced.frontMatterRenderingOption",
+      "showdeo-simple-preview.frontMatterRenderingOption",
     );
     this.imageFolderPath = atom.config.get(
-      "markdown-preview-enhanced.imageFolderPath",
+      "showdeo-simple-preview.imageFolderPath",
     );
     this.printBackground = atom.config.get(
-      "markdown-preview-enhanced.printBackground",
+      "showdeo-simple-preview.printBackground",
     );
-    this.phantomPath = atom.config.get("markdown-preview-enhanced.phantomPath");
-    this.pandocPath = atom.config.get("markdown-preview-enhanced.pandocPath");
+    this.phantomPath = atom.config.get("showdeo-simple-preview.phantomPath");
+    this.pandocPath = atom.config.get("showdeo-simple-preview.pandocPath");
     this.pandocMarkdownFlavor = atom.config.get(
-      "markdown-preview-enhanced.pandocMarkdownFlavor",
+      "showdeo-simple-preview.pandocMarkdownFlavor",
     );
     this.pandocArguments =
       atom.config
-        .get("markdown-preview-enhanced.pandocArguments")
+        .get("showdeo-simple-preview.pandocArguments")
         .split(",")
         .map((x) => x.trim())
         .filter((x) => x.length) || [];
-    this.latexEngine = atom.config.get("markdown-preview-enhanced.latexEngine");
+    this.latexEngine = atom.config.get("showdeo-simple-preview.latexEngine");
     this.enableScriptExecution = atom.config.get(
-      "markdown-preview-enhanced.enableScriptExecution",
+      "showdeo-simple-preview.enableScriptExecution",
     );
 
     /*
      * Extra configs for mpe
      */
     this.fileExtension = atom.config
-      .get("markdown-preview-enhanced.fileExtension")
+      .get("showdeo-simple-preview.fileExtension")
       .split(",")
       .map((x) => x.trim())
       .filter((x) => x.length) || [".md", ".mmark", ".markdown"];
     this.singlePreview = atom.config.get(
-      "markdown-preview-enhanced.singlePreview",
+      "showdeo-simple-preview.singlePreview",
     );
-    this.scrollSync = atom.config.get("markdown-preview-enhanced.scrollSync");
-    this.liveUpdate = atom.config.get("markdown-preview-enhanced.liveUpdate");
+    this.scrollSync = atom.config.get("showdeo-simple-preview.scrollSync");
+    this.liveUpdate = atom.config.get("showdeo-simple-preview.liveUpdate");
     this.previewPanePosition = atom.config.get(
-      "markdown-preview-enhanced.previewPanePosition",
+      "showdeo-simple-preview.previewPanePosition",
     );
     this.openPreviewPaneAutomatically = atom.config.get(
-      "markdown-preview-enhanced.openPreviewPaneAutomatically",
+      "showdeo-simple-preview.openPreviewPaneAutomatically",
     );
     this.automaticallyShowPreviewOfMarkdownBeingEdited = atom.config.get(
-      "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited",
+      "showdeo-simple-preview.automaticallyShowPreviewOfMarkdownBeingEdited",
     );
     this.closePreviewAutomatically = atom.config.get(
-      "markdown-preview-enhanced.closePreviewAutomatically",
+      "showdeo-simple-preview.closePreviewAutomatically",
     );
-    // this.enableZenMode = atom.config.get('markdown-preview-enhanced.enableZenMode')
+    // this.enableZenMode = atom.config.get('showdeo-simple-preview.enableZenMode')
     this.imageUploader = atom.config.get(
-      "markdown-preview-enhanced.imageUploader",
+      "showdeo-simple-preview.imageUploader",
     );
     this.imageDropAction = atom.config.get(
-      "markdown-preview-enhanced.imageDropAction",
+      "showdeo-simple-preview.imageDropAction",
     );
   }
 
   public onDidChange(subscriptions: CompositeDisposable, callback) {
     subscriptions.add(
       atom.config.onDidChange(
-        "markdown-preview-enhanced.usePandocParser",
+        "showdeo-simple-preview.usePandocParser",
         ({ newValue }) => {
           this.usePandocParser = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.breakOnSingleNewLine",
+        "showdeo-simple-preview.breakOnSingleNewLine",
         ({ newValue }) => {
           this.breakOnSingleNewLine = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableTypographer",
+        "showdeo-simple-preview.enableTypographer",
         ({ newValue }) => {
           this.enableTypographer = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableLinkify",
+        "showdeo-simple-preview.enableLinkify",
         ({ newValue }) => {
           this.enableLinkify = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableWikiLinkSyntax",
+        "showdeo-simple-preview.enableWikiLinkSyntax",
         ({ newValue }) => {
           this.enableWikiLinkSyntax = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableEmojiSyntax",
+        "showdeo-simple-preview.enableEmojiSyntax",
         ({ newValue }) => {
           this.enableEmojiSyntax = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableExtendedTableSyntax",
+        "showdeo-simple-preview.enableExtendedTableSyntax",
         ({ newValue }) => {
           this.enableExtendedTableSyntax = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.enableCriticMarkupSyntax",
+        "showdeo-simple-preview.enableCriticMarkupSyntax",
         ({ newValue }) => {
           this.enableCriticMarkupSyntax = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.wikiLinkFileExtension",
+        "showdeo-simple-preview.wikiLinkFileExtension",
         ({ newValue }) => {
           this.wikiLinkFileExtension = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.protocolsWhiteList",
+        "showdeo-simple-preview.protocolsWhiteList",
         ({ newValue }) => {
           this.protocolsWhiteList = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.mathRenderingOption",
+        "showdeo-simple-preview.mathRenderingOption",
         ({ newValue }) => {
           this.mathRenderingOption = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.mathInlineDelimiters",
+        "showdeo-simple-preview.mathInlineDelimiters",
         ({ newValue }) => {
           let mathInlineDelimiters;
           try {
@@ -275,7 +275,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.mathBlockDelimiters",
+        "showdeo-simple-preview.mathBlockDelimiters",
         ({ newValue }) => {
           let mathBlockDelimiters;
           try {
@@ -294,7 +294,7 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
       ),
 
       atom.config.onDidChange(
-        "markdown-preview-enhanced.fileExtension",
+        "showdeo-simple-preview.fileExtension",
         ({ newValue }) => {
           this.fileExtension =
             newValue
@@ -305,68 +305,68 @@ export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.singlePreview",
+        "showdeo-simple-preview.singlePreview",
         ({ newValue }) => {
           this.singlePreview = newValue;
           // callback() // <= No need to call callback. will cause error here.
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.scrollSync",
+        "showdeo-simple-preview.scrollSync",
         ({ newValue }) => {
           this.scrollSync = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.liveUpdate",
+        "showdeo-simple-preview.liveUpdate",
         ({ newValue }) => {
           this.liveUpdate = newValue;
           // callback()
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.previewPanePosition",
+        "showdeo-simple-preview.previewPanePosition",
         ({ newValue }) => {
           this.previewPanePosition = newValue;
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.openPreviewPaneAutomatically",
+        "showdeo-simple-preview.openPreviewPaneAutomatically",
         ({ newValue }) => {
           this.openPreviewPaneAutomatically = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited",
+        "showdeo-simple-preview.automaticallyShowPreviewOfMarkdownBeingEdited",
         ({ newValue }) => {
           this.automaticallyShowPreviewOfMarkdownBeingEdited = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.closePreviewAutomatically",
+        "showdeo-simple-preview.closePreviewAutomatically",
         ({ newValue }) => {
           this.closePreviewAutomatically = newValue;
           callback();
         },
       ),
       /*
-      atom.config.onDidChange('markdown-preview-enhanced.enableZenMode', ({newValue})=> {
+      atom.config.onDidChange('showdeo-simple-preview.enableZenMode', ({newValue})=> {
         this.enableZenMode = newValue
         // callback()
       }),
       */
       atom.config.onDidChange(
-        "markdown-preview-enhanced.imageUploader",
+        "showdeo-simple-preview.imageUploader",
         ({ newValue }) => {
           this.imageUploader = newValue;
           callback();
         },
       ),
       atom.config.onDidChange(
-        "markdown-preview-enhanced.imageDropAction",
+        "showdeo-simple-preview.imageDropAction",
         ({ newValue }) => {
           this.imageDropAction = newValue;
         },

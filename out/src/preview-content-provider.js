@@ -20,14 +20,14 @@ const HTML_FILES_MAP = {};
 /**
  * Key is editor.getPath()
  * Value is MarkdownEngine
- * This data structure prevents MarkdownPreviewEnhancedView from creating
+ * This data structure prevents ShowdeoSimplePreviewView from creating
  * markdown engine for one file more than once.
  */
 const MARKDOWN_ENGINES_MAP = {};
 /**
  * The markdown previewer
  */
-class MarkdownPreviewEnhancedView {
+class ShowdeoSimplePreviewView {
     constructor(uri, config) {
         this.element = null;
         this.webview = null;
@@ -100,7 +100,7 @@ class MarkdownPreviewEnhancedView {
             return;
         }
         const title = this.getTitle();
-        const tabTitle = document.querySelector('[data-type="MarkdownPreviewEnhancedView"] div.title');
+        const tabTitle = document.querySelector('[data-type="ShowdeoSimplePreviewView"] div.title');
         if (tabTitle) {
             tabTitle.innerText = title;
         }
@@ -271,8 +271,8 @@ class MarkdownPreviewEnhancedView {
         const data = event.args[0].data;
         const command = data["command"];
         const args = data["args"];
-        if (command in MarkdownPreviewEnhancedView.MESSAGE_DISPATCH_EVENTS) {
-            MarkdownPreviewEnhancedView.MESSAGE_DISPATCH_EVENTS[command].apply(this, args);
+        if (command in ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS) {
+            ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS[command].apply(this, args);
         }
     }
     webviewConsoleMessage(event) {
@@ -327,7 +327,7 @@ class MarkdownPreviewEnhancedView {
     initEditorEvents() {
         const editorElement = this.editor["getElement"](); // dunno why `getElement` not found.
         this.disposables.add(atom.commands.add(editorElement, {
-            "markdown-preview-enhanced:sync-preview": () => {
+            "showdeo-simple-preview:sync-preview": () => {
                 this.syncPreview(true);
             },
         }));
@@ -383,7 +383,7 @@ class MarkdownPreviewEnhancedView {
         // as esc key doesn't work in atom,
         // I created command.
         this.disposables.add(atom.commands.add(this.element, {
-            "markdown-preview-enhanced:esc-pressed": () => {
+            "showdeo-simple-preview:esc-pressed": () => {
                 // tslint:disable-next-line:no-console
                 console.log("esc pressed");
             },
@@ -510,7 +510,7 @@ class MarkdownPreviewEnhancedView {
      * Get the project directory path of current this.editor
      */
     getProjectDirectoryPath() {
-        return MarkdownPreviewEnhancedView.getProjectDirectoryPathForEditor(this.editor);
+        return ShowdeoSimplePreviewView.getProjectDirectoryPathForEditor(this.editor);
     }
     /**
      * Get the project directory path of the editor
@@ -691,7 +691,7 @@ class MarkdownPreviewEnhancedView {
                 return;
             }
             let imageFileName = path.basename(imageFilePath);
-            const projectDirectoryPath = MarkdownPreviewEnhancedView.getProjectDirectoryPathForEditor(editor);
+            const projectDirectoryPath = ShowdeoSimplePreviewView.getProjectDirectoryPathForEditor(editor);
             let assetDirectoryPath;
             let description;
             if (imageFolderPath[0] === "/") {
@@ -798,10 +798,10 @@ class MarkdownPreviewEnhancedView {
             .substr(2, 9);
         const hint = `![Uploading ${imageFileName}… (${uid})]()`;
         const bufferRow = editor.getCursorBufferPosition().row;
-        const AccessKey = atom.config.get("markdown-preview-enhanced.AccessKey") || "";
-        const SecretKey = atom.config.get("markdown-preview-enhanced.SecretKey") || "";
-        const Bucket = atom.config.get("markdown-preview-enhanced.Bucket") || "";
-        const Domain = atom.config.get("markdown-preview-enhanced.Domain") || "";
+        const AccessKey = atom.config.get("showdeo-simple-preview.AccessKey") || "";
+        const SecretKey = atom.config.get("showdeo-simple-preview.SecretKey") || "";
+        const Bucket = atom.config.get("showdeo-simple-preview.Bucket") || "";
+        const Domain = atom.config.get("showdeo-simple-preview.Domain") || "";
         editor.insertText(hint);
         mume.utility
             .uploadImage(imageFilePath, {
@@ -840,7 +840,7 @@ class MarkdownPreviewEnhancedView {
         this._destroyCB = cb;
     }
 }
-MarkdownPreviewEnhancedView.MESSAGE_DISPATCH_EVENTS = {
+ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
     webviewFinishLoading(sourceUri) {
         /**
          * This event does nothing now, because the preview backgroundIframe
@@ -861,13 +861,13 @@ MarkdownPreviewEnhancedView.MESSAGE_DISPATCH_EVENTS = {
         }
     },
     pasteImageFile(sourceUri, imageUrl) {
-        MarkdownPreviewEnhancedView.pasteImageFile(this.editor, this.config.imageFolderPath, imageUrl);
+        ShowdeoSimplePreviewView.pasteImageFile(this.editor, this.config.imageFolderPath, imageUrl);
     },
     uploadImageFile(sourceUri, imageUrl, imageUploader) {
         if (!this.editor) {
             return;
         }
-        MarkdownPreviewEnhancedView.uploadImageFile(this.editor, imageUrl, imageUploader);
+        ShowdeoSimplePreviewView.uploadImageFile(this.editor, imageUrl, imageUploader);
     },
     openInBrowser(sourceUri) {
         this.openInBrowser();
@@ -957,7 +957,7 @@ MarkdownPreviewEnhancedView.MESSAGE_DISPATCH_EVENTS = {
         atom.workspace.open(imageHistoryFilePath);
     },
 };
-exports.MarkdownPreviewEnhancedView = MarkdownPreviewEnhancedView;
+exports.ShowdeoSimplePreviewView = ShowdeoSimplePreviewView;
 function isMarkdownFile(sourcePath) {
     return false;
 }
