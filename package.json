@@ -1,7 +1,7 @@
 {
   "name": "showdeo-simple-preview",
   "main": "./out/src/extension",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "description": "Markdown preview for use with Showdeo Simple",
   "repository": "https://github.com/jasonhenderson/showdeo-simple-preview",
   "license": "NCSA",
