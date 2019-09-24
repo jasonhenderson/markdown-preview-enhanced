@@ -28,28 +28,6 @@
     "README.md",
     "markdown.png"
   ],
-  "keywords": [
-    "markdown",
-    "presentation",
-    "image helper",
-    "katex",
-    "mathjax",
-    "mermaid",
-    "plantuml",
-    "wavedrom",
-    "pdf",
-    "html",
-    "exporter",
-    "toc",
-    "footer",
-    "graphviz",
-    "dot language",
-    "ePub",
-    "ebook",
-    "pandoc",
-    "beamer",
-    "latex"
-  ],
   "scripts": {
     "build": "tsc --project .",
     "build:watch": "tsc --watch --project .",

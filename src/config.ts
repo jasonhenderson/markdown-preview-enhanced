@@ -149,7 +149,7 @@ export class ShowdeoSimplePreviewConfig implements MarkdownEngineConfig {
       if (ConfigSettings.hasOwnProperty(name)) {
         const transform = ConfigSettings[name];
         const subscription = atom.config.onDidChange(
-          `markdown-preview-enhanced.${name}`,
+          `showdeo-simple-preview.${name}`,
           ({ newValue }) => {
             this[name] = transform(newValue);
             callback();
