@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -468,7 +469,7 @@ class ShowdeoSimplePreviewView {
      * Please notice that row is in center.
      * @param row The buffer row
      */
-    scrollToBufferPosition(row) {
+    _scrollToBufferPosition(row) {
         if (!this.editor) {
             return;
         }
@@ -481,7 +482,10 @@ class ShowdeoSimplePreviewView {
         }
         const editorElement = this.editor["getElement"]();
         const delay = 10;
-        const screenRow = this.editor.screenPositionForBufferPosition([row, 0]).row;
+        const screenRow = this.editor.screenPositionForBufferPosition({
+            row,
+            column: 0,
+        }).row;
         const scrollTop = screenRow * this.editor["getLineHeightInPixels"]() -
             this.element.offsetHeight / 2;
         const helper = (duration = 0) => {
@@ -492,7 +496,7 @@ class ShowdeoSimplePreviewView {
                     return;
                 }
                 const difference = scrollTop - editorElement.getScrollTop();
-                const perTick = difference / duration * delay;
+                const perTick = (difference / duration) * delay;
                 // disable editor onscroll
                 this.editorScrollDelay = Date.now() + 500;
                 const s = editorElement.getScrollTop() + perTick;
@@ -585,26 +589,6 @@ class ShowdeoSimplePreviewView {
             atom.notifications.addError(error.toString());
         });
     }
-    phantomjsExport(fileType = "pdf") {
-        atom.notifications.addInfo("Your document is being prepared");
-        this.engine
-            .phantomjsExport({ fileType, openFileAfterGeneration: true })
-            .then((dest) => {
-            if (dest.endsWith("?print-pdf")) {
-                // presentation pdf
-                atom.notifications.addSuccess(`Please copy and open the following link in Chrome, then print as PDF`, {
-                    dismissable: true,
-                    detail: `Path: \`${dest}\``,
-                });
-            }
-            else {
-                atom.notifications.addSuccess(`File \`${path.basename(dest)}\` was created at path: \`${dest}\``);
-            }
-        })
-            .catch((error) => {
-            atom.notifications.addError(error.toString());
-        });
-    }
     princeExport() {
         atom.notifications.addInfo("Your document is being prepared");
         this.engine
@@ -670,8 +654,9 @@ class ShowdeoSimplePreviewView {
         });
     }
     runAllCodeChunks() {
-        if (!this.engine)
+        if (!this.engine) {
             return;
+        }
         this.engine.runCodeChunks().then(() => {
             this.renderMarkdown();
         });
@@ -721,15 +706,11 @@ class ShowdeoSimplePreviewView {
                             description = imageFileName;
                             imageFileName = imageFileName + uid;
                         }
-                        fs
-                            .createReadStream(imageFilePath)
-                            .pipe(fs.createWriteStream(path.resolve(assetDirectoryPath, imageFileName)));
+                        fs.createReadStream(imageFilePath).pipe(fs.createWriteStream(path.resolve(assetDirectoryPath, imageFileName)));
                     }
                     else if (err.code === "ENOENT") {
                         // file doesn't exist
-                        fs
-                            .createReadStream(imageFilePath)
-                            .pipe(fs.createWriteStream(destPath));
+                        fs.createReadStream(imageFilePath).pipe(fs.createWriteStream(destPath));
                         if (imageFileName.lastIndexOf(".")) {
                             description = imageFileName.slice(0, imageFileName.lastIndexOf("."));
                         }
@@ -840,6 +821,7 @@ class ShowdeoSimplePreviewView {
         this._destroyCB = cb;
     }
 }
+exports.ShowdeoSimplePreviewView = ShowdeoSimplePreviewView;
 ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
     webviewFinishLoading(sourceUri) {
         /**
@@ -853,7 +835,7 @@ ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
         this.refreshPreview();
     },
     revealLine(sourceUri, line) {
-        this.scrollToBufferPosition(line);
+        this._scrollToBufferPosition(line);
     },
     insertImageUrl(sourceUri, imageUrl) {
         if (this.editor) {
@@ -877,9 +859,6 @@ ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
     },
     chromeExport(sourceUri, fileType) {
         this.chromeExport(fileType);
-    },
-    phantomjsExport(sourceUri, fileType) {
-        this.phantomjsExport(fileType);
     },
     princeExport(sourceUri) {
         this.princeExport();
@@ -957,7 +936,6 @@ ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
         atom.workspace.open(imageHistoryFilePath);
     },
 };
-exports.ShowdeoSimplePreviewView = ShowdeoSimplePreviewView;
 function isMarkdownFile(sourcePath) {
     return false;
 }

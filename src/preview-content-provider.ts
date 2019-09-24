@@ -331,7 +331,7 @@ export class ShowdeoSimplePreviewView {
       this.refreshPreview();
     },
     revealLine(sourceUri, line) {
-      this.scrollToBufferPosition(line);
+      this._scrollToBufferPosition(line);
     },
     insertImageUrl(sourceUri, imageUrl) {
       if (this.editor) {
@@ -363,9 +363,6 @@ export class ShowdeoSimplePreviewView {
     },
     chromeExport(sourceUri, fileType) {
       this.chromeExport(fileType);
-    },
-    phantomjsExport(sourceUri, fileType) {
-      this.phantomjsExport(fileType);
     },
     princeExport(sourceUri) {
       this.princeExport();
@@ -681,7 +678,7 @@ export class ShowdeoSimplePreviewView {
    * Please notice that row is in center.
    * @param row The buffer row
    */
-  public scrollToBufferPosition(row) {
+  public _scrollToBufferPosition(row) {
     if (!this.editor) {
       return;
     }
@@ -696,7 +693,10 @@ export class ShowdeoSimplePreviewView {
 
     const editorElement = this.editor["getElement"]();
     const delay = 10;
-    const screenRow = this.editor.screenPositionForBufferPosition([row, 0]).row;
+    const screenRow = this.editor.screenPositionForBufferPosition({
+      row,
+      column: 0,
+    }).row;
     const scrollTop =
       screenRow * this.editor["getLineHeightInPixels"]() -
       this.element.offsetHeight / 2;
@@ -711,7 +711,7 @@ export class ShowdeoSimplePreviewView {
 
         const difference = scrollTop - editorElement.getScrollTop();
 
-        const perTick = difference / duration * delay;
+        const perTick = (difference / duration) * delay;
 
         // disable editor onscroll
         this.editorScrollDelay = Date.now() + 500;
@@ -824,31 +824,6 @@ export class ShowdeoSimplePreviewView {
       });
   }
 
-  public phantomjsExport(fileType = "pdf") {
-    atom.notifications.addInfo("Your document is being prepared");
-    this.engine
-      .phantomjsExport({ fileType, openFileAfterGeneration: true })
-      .then((dest) => {
-        if (dest.endsWith("?print-pdf")) {
-          // presentation pdf
-          atom.notifications.addSuccess(
-            `Please copy and open the following link in Chrome, then print as PDF`,
-            {
-              dismissable: true,
-              detail: `Path: \`${dest}\``,
-            },
-          );
-        } else {
-          atom.notifications.addSuccess(
-            `File \`${path.basename(dest)}\` was created at path: \`${dest}\``,
-          );
-        }
-      })
-      .catch((error) => {
-        atom.notifications.addError(error.toString());
-      });
-  }
-
   public princeExport() {
     atom.notifications.addInfo("Your document is being prepared");
     this.engine
@@ -930,7 +905,9 @@ export class ShowdeoSimplePreviewView {
   }
 
   public runAllCodeChunks() {
-    if (!this.engine) return;
+    if (!this.engine) {
+      return;
+    }
     this.engine.runCodeChunks().then(() => {
       this.renderMarkdown();
     });
@@ -1001,18 +978,16 @@ export class ShowdeoSimplePreviewView {
             imageFileName = imageFileName + uid;
           }
 
-          fs
-            .createReadStream(imageFilePath)
-            .pipe(
-              fs.createWriteStream(
-                path.resolve(assetDirectoryPath, imageFileName),
-              ),
-            );
+          fs.createReadStream(imageFilePath).pipe(
+            fs.createWriteStream(
+              path.resolve(assetDirectoryPath, imageFileName),
+            ),
+          );
         } else if (err.code === "ENOENT") {
           // file doesn't exist
-          fs
-            .createReadStream(imageFilePath)
-            .pipe(fs.createWriteStream(destPath));
+          fs.createReadStream(imageFilePath).pipe(
+            fs.createWriteStream(destPath),
+          );
 
           if (imageFileName.lastIndexOf(".")) {
             description = imageFileName.slice(

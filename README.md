@@ -31,7 +31,11 @@ For more information about this project and how to use this extension, please ch
 
 To check out the documentation, visit
 
-* [English](https://shd101wyy.github.io/showdeo-simple-preview/#/)
+- [English](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
+- [简体中文](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-cn/)
+- [正體中文](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-tw/)
+
+Contact me if you are willing to help translate the documentation :)
 
 ## Keybindings
 
