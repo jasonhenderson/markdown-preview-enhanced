@@ -1,8 +1,14 @@
 # See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
 'context-menu':
+  'atom-workspace': [
+    {
+      'label': 'Sync Server (Upload)',
+      'command' : 'showdeo-simple-preview:sync-server-upload'
+    }
+  ],
   'atom-text-editor': [
     {
-      'label': 'Toggle showdeo-simple-preview'
+      'label': 'Toggle Showdeo Simple Preview'
       'command': 'showdeo-simple-preview:toggle'
     }
   ],
