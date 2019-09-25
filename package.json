@@ -31,15 +31,16 @@
   "scripts": {
     "build": "tsc --project .",
     "build:watch": "tsc --watch --project .",
-    "atom": "cd ../mume && npm run build",
+    "atom": "cd ../mume && npm run build && cd ../showdeo-simple-preview && npm install @shd101wyy/mume",
     "lint": "tsc --project . --noEmit && tslint --project . && prettier-check --ignore-path .gitignore \"{.,src/**}/{*.{j,t}s,*.md,ts*.json}\"",
     "lint-with-tests": "tsc --project . --noEmit && tslint --project . && prettier-check --ignore-path .gitignore \"{.,src/**,test/**}/{*.{j,t}s,*.md,ts*.json}\"",
     "format": "prettier --write --ignore-path .gitignore \"{.,src/**}/{*.{j,t}s,*.md,ts*.json}\"",
     "format-with-tests": "prettier --write --ignore-path .gitignore \"{.,src/**,test/**}/{*.{j,t}s,*.md,ts*.json}\"",
-    "link": "apm link --dev"
+    "link": "apm link --dev",
+    "placeholder": "github:jasonhenderson/mume"
   },
   "dependencies": {
-    "@shd101wyy/mume": "github:jasonhenderson/mume"
+    "@shd101wyy/mume": "file:../mume"
   },
   "devDependencies": {
     "@types/atom": "^1.31.1",

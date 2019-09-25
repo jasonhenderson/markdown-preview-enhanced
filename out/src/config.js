@@ -81,7 +81,7 @@ class ShowdeoSimplePreviewConfig {
         for (const name in ConfigSettings) {
             if (ConfigSettings.hasOwnProperty(name)) {
                 const transform = ConfigSettings[name];
-                const subscription = atom.config.onDidChange(`markdown-preview-enhanced.${name}`, ({ newValue }) => {
+                const subscription = atom.config.onDidChange(`showdeo-simple-preview.${name}`, ({ newValue }) => {
                     this[name] = transform(newValue);
                     callback();
                 });

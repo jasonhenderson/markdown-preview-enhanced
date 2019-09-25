@@ -15,6 +15,7 @@ const path = require("path");
 const config_1 = require("./config");
 const preview_content_provider_1 = require("./preview-content-provider");
 const utility = mume.utility;
+const showdeoBaseUrl = 'https://simple.showdeo.com/';
 let subscriptions = null;
 let config = null;
 /**
@@ -82,6 +83,7 @@ function getPreviewForEditor(editor) {
  * Toggle markdown preview
  */
 function togglePreview() {
+    console.log('toggle preview called');
     const editor = atom.workspace.getActivePaneItem();
     const preview = getPreviewForEditor(editor);
     if (preview && preview["getEditor"] && preview["getEditor"]()) {
@@ -151,24 +153,25 @@ function activate(state) {
         }));
         // Register commands
         subscriptions.add(atom.commands.add("atom-workspace", {
-            "markdown-preview-enhanced:toggle": togglePreview,
-            "markdown-preview-enhanced:customize-css": customizeCSS,
-            "markdown-preview-enhanced:create-toc": createTOC,
-            "markdown-preview-enhanced:toggle-scroll-sync": toggleScrollSync,
-            "markdown-preview-enhanced:toggle-live-update": toggleLiveUpdate,
-            "markdown-preview-enhanced:toggle-break-on-single-newline": toggleBreakOnSingleNewLine,
-            "markdown-preview-enhanced:insert-table": insertTable,
-            "markdown-preview-enhanced:image-helper": startImageHelper,
-            "markdown-preview-enhanced:open-mermaid-config": openMermaidConfig,
-            "markdown-preview-enhanced:open-mathjax-config": openMathJaxConfig,
-            "markdown-preview-enhanced:open-katex-config": openKaTeXConfig,
-            "markdown-preview-enhanced:extend-parser": extendParser,
-            "markdown-preview-enhanced:insert-new-slide": insertNewSlide,
-            "markdown-preview-enhanced:insert-page-break": insertPageBreak,
-            "markdown-preview-enhanced:toggle-zen-mode": toggleZenMode,
-            "markdown-preview-enhanced:run-code-chunk": runCodeChunkCommand,
-            "markdown-preview-enhanced:run-all-code-chunks": runAllCodeChunks,
-            "markdown-preview-enhanced:show-uploaded-images": showUploadedImages,
+            "showdeo-simple-preview:toggle": togglePreview,
+            "showdeo-simple-preview:customize-css": customizeCSS,
+            "showdeo-simple-preview:create-toc": createTOC,
+            "showdeo-simple-preview:toggle-scroll-sync": toggleScrollSync,
+            "showdeo-simple-preview:toggle-live-update": toggleLiveUpdate,
+            "showdeo-simple-preview:toggle-break-on-single-newline": toggleBreakOnSingleNewLine,
+            "showdeo-simple-preview:insert-table": insertTable,
+            "showdeo-simple-preview:image-helper": startImageHelper,
+            "showdeo-simple-preview:open-mermaid-config": openMermaidConfig,
+            "showdeo-simple-preview:open-mathjax-config": openMathJaxConfig,
+            "showdeo-simple-preview:open-katex-config": openKaTeXConfig,
+            "showdeo-simple-preview:extend-parser": extendParser,
+            "showdeo-simple-preview:insert-new-slide": insertNewSlide,
+            "showdeo-simple-preview:insert-page-break": insertPageBreak,
+            "showdeo-simple-preview:toggle-zen-mode": toggleZenMode,
+            "showdeo-simple-preview:run-code-chunk": runCodeChunkCommand,
+            "showdeo-simple-preview:run-all-code-chunks": runAllCodeChunks,
+            "showdeo-simple-preview:show-uploaded-images": showUploadedImages,
+            "showdeo-simple-preview:uploaded-active-file": uploadActiveFileFromEditor,
         }));
         // When the preview is displayed
         // preview will display the content of editor (pane item) that is activated
@@ -458,6 +461,34 @@ function runAllCodeChunks() {
 function showUploadedImages() {
     const imageHistoryFilePath = path.resolve(utility.extensionConfigDirectoryPath, "./image_history.md");
     atom.workspace.open(imageHistoryFilePath);
+}
+function uploadActiveFileFromEditor() {
+    const editor = atom.workspace.getActiveTextEditor();
+    const filePath = editor.getPath();
+    uploadFileToServer(filePath);
+}
+function uploadFileToServer(filePath) {
+    console.log('upload file path', filePath);
+    const file = new File(null, filePath);
+    console.log('upload file', file);
+    // Add the blob to the form
+    let uploadForm = document.getElementById("uploadForm");
+    const formData = new FormData(uploadForm);
+    formData.append('files[]', file);
+    // Make the AJAX call to send the multipart form to the server
+    // $.ajax({
+    //     url: `${showdeoBaseUrl}/upload/`,
+    //     type: 'POST',
+    //     data: formData,
+    //     processData: false,
+    //     contentType: false
+    // }).done((data) => {
+    //
+    // }).fail(() => {
+    //
+    // }).always(() => {
+    //
+    // });
 }
 /**
  * Code chunk `modify_source` is triggered.

@@ -5,8 +5,14 @@
     "noUnusedLocals": false,
     "sourceMap": true,
     "outDir": "out",
-    "lib": ["es6", "dom"],
-    "rootDir": "."
+    "lib": [
+      "es6",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "rootDir": ".",
+    "downlevelIteration": true
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules"]

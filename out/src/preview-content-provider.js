@@ -32,6 +32,7 @@ class ShowdeoSimplePreviewView {
     constructor(uri, config) {
         this.element = null;
         this.webview = null;
+        this.uploadForm = null;
         this.uri = "";
         this.disposables = null;
         /**
@@ -82,6 +83,10 @@ class ShowdeoSimplePreviewView {
         this.webview.addEventListener("console-message", this.webviewConsoleMessage.bind(this));
         this.webview.addEventListener("keydown", this.webviewKeyDown.bind(this));
         this.element.appendChild(this.webview);
+        // Add a form for use in uploading files to the server
+        this.uploadForm = document.createElement("form");
+        this.uploadForm.setAttribute("id", "uploadForm");
+        this.element.appendChild(this.uploadForm);
     }
     getURI() {
         return this.uri;
@@ -853,6 +858,10 @@ ShowdeoSimplePreviewView.MESSAGE_DISPATCH_EVENTS = {
     },
     openInBrowser(sourceUri) {
         this.openInBrowser();
+    },
+    syncServer(sourceUri) {
+        console.log('sync server called for', sourceUri);
+        //this.syncServer();
     },
     htmlExport(sourceUri, offline) {
         this.htmlExport(offline);
