@@ -171,7 +171,7 @@ function activate(state) {
             "showdeo-simple-preview:run-code-chunk": runCodeChunkCommand,
             "showdeo-simple-preview:run-all-code-chunks": runAllCodeChunks,
             "showdeo-simple-preview:show-uploaded-images": showUploadedImages,
-            "showdeo-simple-preview:uploaded-active-file": uploadActiveFileFromEditor,
+            "showdeo-simple-preview:sync-server-upload": uploadActiveFileFromEditor,
         }));
         // When the preview is displayed
         // preview will display the content of editor (pane item) that is activated
