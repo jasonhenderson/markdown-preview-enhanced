@@ -40,7 +40,7 @@
     "placeholder": "github:jasonhenderson/mume"
   },
   "dependencies": {
-    "@shd101wyy/mume": "file:~/Projects/showdeo/simple/mume"
+    "@shd101wyy/mume": "file:/Users/jasonhenderson/Projects/showdeo/simple/mume"
   },
   "devDependencies": {
     "@types/atom": "^1.31.1",
