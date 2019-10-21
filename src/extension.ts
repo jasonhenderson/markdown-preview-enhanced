@@ -1,8 +1,9 @@
 import * as mume from "@shd101wyy/mume";
-import {CompositeDisposable, TextEditor} from "atom";
+import {CompositeDisposable, TextEditor, Directory, File} from "atom";
 import * as path from "path";
 import {ShowdeoSimplePreviewConfig} from "./config";
 import {ShowdeoSimplePreviewView} from "./preview-content-provider";
+import * as fs from 'fs';
 
 const utility = mume.utility;
 const showdeoBaseUrl = 'https://simple.showdeo.com/';
@@ -178,7 +179,7 @@ export function activate(state) {
                     "showdeo-simple-preview:run-code-chunk": runCodeChunkCommand,
                     "showdeo-simple-preview:run-all-code-chunks": runAllCodeChunks,
                     "showdeo-simple-preview:show-uploaded-images": showUploadedImages,
-                    "showdeo-simple-preview:sync-server-upload": uploadActiveFileFromEditor,
+                    "showdeo-simple-preview:sync-server-upload": syncServerUpload,
                 }),
             );
 
@@ -559,19 +560,36 @@ function showUploadedImages() {
     atom.workspace.open(imageHistoryFilePath);
 }
 
-function uploadActiveFileFromEditor() {
-    const editor = atom.workspace.getActiveTextEditor();
-    const filePath = editor.getPath();
+function syncServerUpload() {
+    const projectHome = atom.config.get("core.projectHome");
+    console.log('project home', projectHome);
 
-    uploadFileToServer(filePath);
+    const pane = atom.workspace.getActivePane();
+    const activeItem = pane.getActiveItem();
 
+    if (atom.workspace.isTextEditor(pane)) {
+        const filePath = editor.getPath();
+        uploadFileToServer(filePath);
+    } else {
+
+        if (activeItem instanceof Directory) {
+            // TODO: iterate recursively sending files
+
+        } else if (activeItem instanceof File) {
+            uploadFileToServer((activeItem as File).getPath());
+        }
+
+    }
 }
 
 function uploadFileToServer(filePath) {
 
-    console.log('upload file path', filePath);
+    const relativePath = atom.project.relativize(filePath);
 
-    const file = new File(null, filePath);
+    console.log('upload file path', filePath);
+    console.log('relative file path', relativePath);
+
+    const file = new Blob()
 
     console.log('upload file', file);
 
@@ -597,6 +615,15 @@ function uploadFileToServer(filePath) {
 
 }
 
+function syncServerDownload() {
+    const editor = atom.workspace.getActiveTextEditor();
+    const filePath = editor.getPath();
+    downloadFileFromServer(filePath);
+}
+
+function downloadFileFromServer(filePath) {
+
+}
 
 /**
  * Code chunk `modify_source` is triggered.

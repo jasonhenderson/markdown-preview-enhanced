@@ -2,8 +2,18 @@
 'context-menu':
   'atom-workspace': [
     {
-      'label': 'Sync Server (Upload)',
-      'command' : 'showdeo-simple-preview:sync-server-upload'
+      'label': 'Sync Server',
+      'submenu': [
+      	{
+      		'label': 'Upload',
+	        'command' : 'showdeo-simple-preview:sync-server-upload'
+      	},
+		{
+			'label': 'Download',
+			'command' : 'showdeo-simple-preview:sync-server-download'
+		}
+
+      ]
     }
   ],
   'atom-text-editor': [

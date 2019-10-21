@@ -364,10 +364,6 @@ export class ShowdeoSimplePreviewView {
     openInBrowser(sourceUri) {
       this.openInBrowser();
     },
-    syncServer(sourceUri) {
-      console.log('sync server called for', sourceUri)
-      //this.syncServer();
-    },
     htmlExport(sourceUri, offline) {
       this.htmlExport(offline);
     },

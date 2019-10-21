@@ -171,7 +171,8 @@ function activate(state) {
             "showdeo-simple-preview:run-code-chunk": runCodeChunkCommand,
             "showdeo-simple-preview:run-all-code-chunks": runAllCodeChunks,
             "showdeo-simple-preview:show-uploaded-images": showUploadedImages,
-            "showdeo-simple-preview:sync-server-upload": uploadActiveFileFromEditor,
+            "showdeo-simple-preview:sync-server-upload": syncServerUpload,
+            "showdeo-simple-preview:sync-server-download": syncServerDownload,
         }));
         // When the preview is displayed
         // preview will display the content of editor (pane item) that is activated
@@ -462,10 +463,15 @@ function showUploadedImages() {
     const imageHistoryFilePath = path.resolve(utility.extensionConfigDirectoryPath, "./image_history.md");
     atom.workspace.open(imageHistoryFilePath);
 }
-function uploadActiveFileFromEditor() {
-    const editor = atom.workspace.getActiveTextEditor();
-    const filePath = editor.getPath();
-    uploadFileToServer(filePath);
+function syncServerUpload() {
+    const pane = atom.workspace.getActivePane();
+    if (atom.workspace.isTextEditor(pane)) {
+        const editor = pane as TextEditor;
+        const filePath = editor.getPath();
+        uploadFileToServer(filePath);
+    } else {
+
+    }
 }
 function uploadFileToServer(filePath) {
     console.log('upload file path', filePath);
@@ -490,6 +496,16 @@ function uploadFileToServer(filePath) {
     //
     // });
 }
+function syncServerDownload() {
+    const editor = atom.workspace.getActiveTextEditor();
+    const filePath = editor.getPath();
+    downloadFileTFromServer(filePath);
+}
+
+function downloadFileTFromServer(filePath) {
+
+}
+
 /**
  * Code chunk `modify_source` is triggered.
  * @param codeChunkData
